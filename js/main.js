@@ -18,14 +18,15 @@ var polotno = [];
 var cursors;
 var emitters=[];
 var machine1 = null;
-
+var timer;
 function create(){
 
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.setImpactEvents(true);
     game.physics.p2.gravity.y = 400;
     cursors = game.input.keyboard.createCursorKeys();
-
+    timer = game.time.create();
+    timer.start();
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
     game.physics.p2.enable(player);
     player.animations.add('run');
@@ -93,7 +94,7 @@ function createMachine(){
     game.physics.p2.enable(machine1);
     machine1.body.kinematic = true;
     machine1.update = function(){
-        this.body.y = Math.sin(game.time.totalElapsedSeconds()*Math.log(game.time.totalElapsedSeconds()))*300;
+        this.body.y = Math.sin(timer.seconds*Math.log(timer.seconds))*300;
         if(this.body.y<=-290){
             this.body.x = Math.random()*800; 
         }
@@ -101,6 +102,6 @@ function createMachine(){
 }
 
 function render() {
-    game.debug.text("Time: " + Math.floor(game.time.totalElapsedSeconds()), 32, 32);
+    game.debug.text("Time: " + Math.floor(timer.seconds), 32, 32);
  
 }
